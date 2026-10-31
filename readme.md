@@ -1,142 +1,104 @@
+# Danganronpa Voice Patcher (Trigger Happy Havoc)
+
 <div align="center">
 
-  # 🎮 Save Audio Switcher CLI / PowerShell
+[![Windows](https://img.shields.io/badge/Platform-Windows%2010%20%7C%2011-blue?style=for-the-badge&logo=windows)](https://www.microsoft.com/windows)
+[![PowerShell](https://img.shields.io/badge/PowerShell-5.1%2B-blue?style=for-the-badge&logo=powershell)](https://microsoft.com/powershell)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)](LICENSE)
 
-  [![PowerShell](https://img.shields.io/badge/PowerShell-v5.1+-blue.svg?style=for-the-badge&logo=powershell&logoColor=white)](https://microsoft.com/powershell)
-  [![Batch Script](https://img.shields.io/badge/Batch-Windows_CMD-informational.svg?style=for-the-badge&logo=windows&logoColor=white)](https://en.wikipedia.org/wiki/Batch_file)
-  [![License](https://img.shields.io/badge/License-MIT-green.svg?style=for-the-badge)](LICENSE)
-  [![Platform](https://img.shields.io/badge/Platform-Windows-0078D6.svg?style=for-the-badge&logo=windows)](https://www.microsoft.com)
+**Danganronpa Voice Patcher** es una suite de herramientas desarrolladas para modificar el idioma del doblaje de voz (**Japonés ↔ Inglés**) en ranuras de guardado específicas de *Danganronpa: Trigger Happy Havoc* (PC/Steam). 
 
-  **Herramienta automatizada en Script para alternar al instante entre doblaje Japonés (JP) e Inglés (EN) en tus archivos de guardado.**
-
-  [Características](#-características) •
-  [Vista Previa](#-demostración-y-capturas) •
-  [Instalación](#-instalación) •
-  [Uso](#-modo-de-uso) •
-  [Copias de Seguridad](#-sistema-de-copias-de-seguridad)
+Garantiza la seguridad absoluta de tus datos mediante **backups automáticos verificados por Hash SHA-256**, recálculo de checksums del contenedor VFS y escrituras atómicas.
 
 </div>
 
 ---
 
-## 📸 Demostración y Capturas
+## Ediciones Disponibles
 
-<div align="center">
+El parcheador viene en dos ediciones para adaptarse a tu estilo de uso:
 
-| Menú Principal del Script | Proceso de Cambio & Backup |
+| Edición | Tipo | Descripción | Captura / Estilo |
+| :--- | :--- | :--- | :--- |
+| **Junko Edition** | **GUI (WPF)** | Interfaz gráfica moderna con tema oscuro, tarjetas visuales de slots, soporte trilingüe y logs integrados. | ![Junko GUI](docs/screenshots/junko_gui.png) |
+| **Celestia Edition** | **CLI (Consola ANSI)** | Interfaz de consola elegante, con colores TrueColor (RGB ANSI), tablas formateadas y banners ASCII estilizados. | ![Celeste CLI](docs/screenshots/celeste_cli.png) |
+
+---
+
+## Características Principales
+
+* **Seguridad e Integridad de Partidas:**
+  * **Backups Verificados:** Genera automáticamente respaldos `.bak_YYYYMMDD_HHMMSS_fff` comprobando tamaño y Hash SHA-256 antes de escribir.
+  * **Recálculo de Checksum:** Recomputa el checksum interno del contenedor VFS para evitar que el juego detecte los guardados como corruptos.
+  * **Escritura Atómica con Auto-Restauración:** Escribe primero en un archivo temporal; si la verificación posterior falla, restaura la copia de seguridad de inmediato.
+
+* **Detección Activa del Juego:** Revisa si el ejecutable de Danganronpa está en ejecución para evitar conflictos con Steam Cloud o sobreescrituras accidental.
+
+* **Zero Dependencias:** No requiere instalación. Empaquetado en scripts ejecutables `.bat` que auto-decodifican y ejecutan PowerShell de forma transparente mediante `certutil`.
+
+---
+
+## Capturas de Pantalla
+
+### Junko Edition (GUI)
+| Interfaz Principal | Selección de Slots |
 | :---: | :---: |
-| <img src="docs/screenshots/main-menu.png" alt="Menú Principal" width="400"/> | <img src="docs/screenshots/backup-process.png" alt="Proceso de Backup" width="400"/> |
+| ![Junko Main](docs/screenshots/junko_main.png) | ![Junko Select](docs/screenshots/junko_select.png) |
 
-</div>
+> 💡 *Soporta selección multilenguaje dinámica (Español, Inglés y Japonés).*
 
-> 💡 **Nota:** Coloca tus imágenes en una carpeta llamada `docs/screenshots/` dentro del repositorio o reemplaza los enlaces anteriores por las URL de tus capturas.
-
----
-
-## ✨ Características
-
-- ⚡ **Zero Dependencias:** Funciona de forma nativa en Windows mediante **Batch (`.bat`)** o **PowerShell (`.ps1`)**. No requiere instalar intérpretes externos.
-- 🔄 **Cambio Automático de Audio:** Modifica los valores hexadecimales / datos en los slots de guardado para alternar entre `JP` y `EN`.
-- 🛡️ **Copia de Seguridad Automática:** Duplica el archivo de guardado original con marca de tiempo (`TIMESTAMP`) antes de aplicar cualquier modificación.
-- 🎯 **Gestión por Slots:** Detecta y permite seleccionar ranuras específicas de guardado (`Slot 1`, `Slot 2`, etc.).
-- ⏪ **Opción de Restauración rápida:** Restaura de manera inmediata el último backup guardado si deseas revertir los cambios.
+### Celestia Edition (CLI)
+| Menú Principal y Tabla de Slots | Selección de Acciones |
+| :---: | :---: |
+| ![Celeste Table](docs/screenshots/celeste_table.png) | ![Celeste Action](docs/screenshots/celeste_action.png) |
 
 ---
 
-## 🛠️ Requisitos Previos
+## Requisitos del Sistema
 
-| Requisito | Versión Mínima | Detalles |
-| :--- | :--- | :--- |
-| **Sistema Operativo** | Windows 10 / 11 | Compatibilidad nativa |
-| **PowerShell** | 5.1+ | Incluido por defecto en Windows |
-| **Permisos** | Usuario estándar | No requiere permisos de Administrador |
+| Componente | Requisito Mínimo |
+| :--- | :--- |
+| **Sistema Operativo** | Windows 10 / 11 (64-bit) |
+| **Entorno** | Windows PowerShell 5.1+ (Incluido por defecto en Windows) |
+| **Juego** | *Danganronpa: Trigger Happy Havoc* (Versión PC / Steam) |
 
 ---
 
-## 🚀 Instalación
+## Instalación y Uso
 
-1. Ve a la sección de **[Releases](../../releases)** del repositorio.
-2. Descarga el paquete `.zip` que contiene los scripts (`.bat` / `.ps1`).
-3. Extrae el contenido en la carpeta donde tengas instalados los datos de guardado o en una carpeta de tu preferencia.
+1. Descarga la versión de tu preferencia desde la sección de [**Releases**](../../releases):
+   * `DanganronpaVoicePatcher_JunkoEdition.bat` (GUI)
+   * `DanganronpaVoicePatcher_CelesteEdition.bat` (CLI)
+2. Haz doble clic en el archivo `.bat` deseado para ejecutarlo.
 
-O clona directamente el repositorio:
+### Pasos Generales:
+1. **Detección de Guardado:** El programa cargará por defecto la ruta estándar:
+   `%USERPROFILE%\Documents\My Games\Danganronpa\savedata.vfs`
+2. **Seleccionar Slot:** Elige el slot (`data01.bin`, `data02.bin`, etc.) que deseas modificar.
+3. **Aplicar Cambio:** Cambia la voz a **Japonés** o **Inglés**.
 
-```cmd
-git clone https://github.com/tu-usuario/save-audio-switcher.git
-cd save-audio-switcher
+> [!WARNING]
+> **Steam Cloud:** Después de realizar modificaciones, asegúrate de comprobar que Steam Cloud no restaure tus archivos antiguos al iniciar el juego.
+
+---
+
+## Estructura de Archivos y Backups
+
+Los respaldos se almacenan junto al archivo original con una marca de tiempo precisa:
+
+```
+Documents/My Games/Danganronpa/
+ ├── savedata.vfs
+ ├── savedata.vfs.bak_20261031_103000_123   <-- Copia de seguridad verificada por SHA-256
+ └── ...
 ```
 
 ---
 
-## 📖 Modo de Uso
+## Autoría
 
-### Método 1: Usando el Ejecutable `.bat` (Recomendado)
+Desarrollado por **MA_Dev**.
 
-> [!TIP]
-> Haz doble clic sobre `launcher.bat` para abrir el menú interactivo en consola.
-
-```cmd
-:: Simplemente ejecuta el archivo .bat
-launcher.bat
-```
-
-1. Selecciona el número de slot que deseas modificar (`1-5`).
-2. Elige el idioma de voz deseado:
-   - `[1]` Japonés (JP)
-   - `[2]` Inglés (EN)
-3. El script creará la copia de seguridad e informará cuando el proceso haya finalizado.
-
-### Método 2: Desde PowerShell (`.ps1`)
-
-Si prefieres ejecutar directamente el script de PowerShell:
-
-```powershell
-# Si recibes un aviso de política de ejecución, habilítala temporalmente:
-Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
-
-# Ejecuta el script
-.\SaveAudioSwitcher.ps1 -Slot 1 -Audio JP
-```
-
----
-
-## 🛡️ Sistema de Copias de Seguridad
-
-El script garantiza que tus partidas **nunca se corrompan o pierdan**. 
-
-```text
-📁 TuProyecto/
- ├── 📜 launcher.bat
- ├── 📜 SaveAudioSwitcher.ps1
- ├── 📁 backups/  <-- Creado automáticamente
- │    ├── 📄 SaveData_Slot1_20261031_102500.bak
- │    └── 📄 SaveData_Slot2_20261031_102612.bak
- └── 📄 SaveData.dat  <-- Archivo modificado
-```
-
-> [!CAUTION]
-> **No borres la carpeta `backups/`** si deseas conservar la capacidad de revertir tus partidas a su estado original antes de las modificaciones.
-
----
-
-## 🤝 Contribuciones
-
-Si deseas mejorar el script o añadir compatibilidad para otros juegos:
-
-1. Haz un **Fork** de este repositorio.
-2. Crea una rama con tu mejora (`git checkout -b feature/NuevoJuego`).
-3. Haz **Commit** de tus cambios (`git commit -m 'Añade soporte para Juego X'`).
-4. Haz **Push** a la rama (`git push origin feature/NuevoJuego`).
-5. Abre un **Pull Request**.
-
----
-
-## 📝 Licencia
+## Licencia
 
 Este proyecto está bajo la Licencia **MIT**. Consulta el archivo [LICENSE](LICENSE) para más detalles.
-
-<div align="center">
-
-¡Creado con ❤️ para la comunidad de jugadores!
-
-</div>
