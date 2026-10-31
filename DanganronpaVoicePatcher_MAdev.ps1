@@ -1,4 +1,6 @@
-﻿Add-Type -AssemblyName PresentationFramework, PresentationCore, WindowsBase, System.Xaml, System.Windows.Forms
+# Danganronpa Voice Patcher 1.0 By MA_Dev
+# Junko Edition (GUI)
+Add-Type -AssemblyName PresentationFramework, PresentationCore, WindowsBase, System.Xaml, System.Windows.Forms
 
 trap {
     $unexpected = if ($Global:I18N) { T 'unexpected_error' } else { 'Unexpected error:' }
@@ -17,18 +19,17 @@ if ($consoleHwnd -ne [IntPtr]::Zero) {
     [DanganronpaWin32.Win32Console]::ShowWindow($consoleHwnd, 0) | Out-Null
 }
 
-# Offsets documentados para Danganronpa: Trigger Happy Havoc (PC/Steam), relativos al inicio de cada slot dentro del VFS.
-$Global:FLAG_OFFSET     = 119680   # 0 = ingles, 1 = japones
+# Offsets de Danganronpa: Trigger Happy Havoc (PC/Steam)
+$Global:FLAG_OFFSET     = 119680   # 0 = ingles, 1 = japones (Personaje de la prueba: Touko Fukawa)
 $Global:SUM_FROM        = 800
 $Global:SUM_TO          = 240784
 $Global:CHECKSUM_OFFSET = 240784
 $Global:MIN_SLOT_LENGTH = $Global:CHECKSUM_OFFSET + 1
 $Global:DEFAULT_SAVE_PATH = Join-Path $env:USERPROFILE 'Documents\My Games\Danganronpa\savedata.vfs'
-# Patrones (best effort) del nombre del proceso del juego; ajustalos si el ejecutable se llama distinto.
+# Patrones (best effort) del nombre del proceso del juego
 $Global:GAME_PROCESS_PATTERNS = @('*danganronpa*', '*trigger*happy*')
 
-# ---------------- UI strings (en / es / ja) ----------------
-# Keep this file saved as UTF-8 WITH BOM so Windows PowerShell reads the Japanese text correctly.
+# ---------------- Strings de la UI (en / es / ja) ----------------
 $Global:I18N = @{
     en = @{
         subtitle            = "Voice language editor for Trigger Happy Havoc saves"
@@ -120,6 +121,7 @@ $Global:I18N = @{
         err_verify_restored = "La verificación posterior falló; se ha restaurado el backup."
         err_verify          = "La verificación posterior falló."
     }
+# El japonés gritando de felicidad porque el programa está traducido a su idioma XD
     ja = @{
         subtitle            = "Trigger Happy Havoc セーブデータ用 ボイス言語エディタ"
         made_by             = "制作:"
@@ -167,7 +169,7 @@ $Global:I18N = @{
     }
 }
 
-# Default UI language from the Windows display language (es / ja, otherwise en). The header buttons change it.
+# UI lang por defecto
 $Global:GITHUB_URL = 'https://github.com/madevhc/'
 $Global:CurrentLang = switch ((Get-UICulture).TwoLetterISOLanguageName) { 'es' { 'es' } 'ja' { 'ja' } default { 'en' } }
 
@@ -308,7 +310,7 @@ function Set-SlotVoiceLanguage {
     if ($TargetValue -ne 0 -and $TargetValue -ne 1) { throw ((T 'err_invalid_lang') -f $TargetValue) }
     $bytes = [System.IO.File]::ReadAllBytes($Path)
 
-    # El archivo pudo cambiar desde que se cargo (el juego, Steam Cloud...): se revalida el slot.
+    # El archivo pudo cambiar desde que se cargo (el juego, Steam Cloud...): se revalida el slot
     $entry = Parse-VfsEntries -Bytes $bytes | Where-Object { $_.Name -eq $SlotName } | Select-Object -First 1
     if (-not $entry -or [int]$entry.Offset -ne $SlotOffset -or $entry.Length -lt $Global:MIN_SLOT_LENGTH) {
         throw (T 'err_file_changed')
@@ -322,7 +324,6 @@ function Set-SlotVoiceLanguage {
     $sum = Set-ChecksumForSlot -Bytes $bytes -SlotOffset $SlotOffset
     $expectedHash = Get-BytesHash -Bytes $bytes
 
-    # Escritura atomica: primero a un temporal verificado y luego reemplazo del original.
     $tmp = "$Path.tmp_$PID"
     try {
         [System.IO.File]::WriteAllBytes($tmp, $bytes)
@@ -334,7 +335,7 @@ function Set-SlotVoiceLanguage {
         throw
     }
 
-    # Verificacion posterior: el archivo final debe ser exactamente lo que se pretendia escribir.
+    # Verificacion posterior: el archivo final debe ser exactamente lo que se pretendia escribir
     $final = [System.IO.File]::ReadAllBytes($Path)
     if ((Get-BytesHash -Bytes $final) -ne $expectedHash) {
         if ($BackupPath -and (Test-Path -LiteralPath $BackupPath)) {
@@ -745,7 +746,7 @@ function Apply-VoiceChange {
 
 $btnToEnglish.Add_Click({ Apply-VoiceChange -TargetValue 0 -TargetLabel (Get-LangLabel -FlagVal 0) })
 $btnToJapanese.Add_Click({ Apply-VoiceChange -TargetValue 1 -TargetLabel (Get-LangLabel -FlagVal 1) })
-
+# Enlace a un bonito GitHub clicable
 $linkGithub.ToolTip = 'github.com/madevhc'
 $linkGithub.Add_MouseLeftButtonUp({
     try { Start-Process $Global:GITHUB_URL } catch {}
