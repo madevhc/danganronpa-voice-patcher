@@ -20,8 +20,8 @@ El parcheador viene en dos ediciones para adaptarse a tu estilo de uso:
 
 | Edición | Tipo | Descripción | Captura / Estilo |
 | :--- | :--- | :--- | :--- |
-| **Junko Edition** | **GUI (WPF)** | Interfaz gráfica moderna con tema oscuro, tarjetas visuales de slots, soporte trilingüe y logs integrados. | ![Junko GUI](docs/screenshots/junko_gui.png) |
-| **Celestia Edition** | **CLI (Consola ANSI)** | Interfaz de consola elegante, con colores TrueColor (RGB ANSI), tablas formateadas y banners ASCII estilizados. | ![Celeste CLI](docs/screenshots/celeste_cli.png) |
+| **Junko Edition** | **GUI (WPF)** | Interfaz gráfica moderna con tema oscuro, tarjetas visuales de slots, soporte trilingüe y logs integrados. | ![Junko GUI](/screenshots/GUI-img.png) |
+| **Celestia Edition** | **CLI (Consola ANSI)** | Interfaz de consola elegante, con colores TrueColor (RGB ANSI), tablas formateadas y banners ASCII estilizados. | ![Celeste CLI](/screenshots/CLI-img-1.png) |
 
 ---
 
@@ -41,16 +41,16 @@ El parcheador viene en dos ediciones para adaptarse a tu estilo de uso:
 ## Capturas de Pantalla
 
 ### Junko Edition (GUI)
-| Interfaz Principal | Selección de Slots |
-| :---: | :---: |
-| ![Junko Main](docs/screenshots/junko_main.png) | ![Junko Select](docs/screenshots/junko_select.png) |
+| Interfaz |
+| :---: |
+| ![Junko Main](/screenshots/GUI-img.png) |
 
 > 💡 *Soporta selección multilenguaje dinámica (Español, Inglés y Japonés).*
 
 ### Celestia Edition (CLI)
-| Menú Principal y Tabla de Slots | Selección de Acciones |
+| Menú principal | Selección de Acciones |
 | :---: | :---: |
-| ![Celeste Table](docs/screenshots/celeste_table.png) | ![Celeste Action](docs/screenshots/celeste_action.png) |
+| ![Celestia Table](/screenshots/CLI-img-1.png) | ![Celeste Action](/screenshots/CLI-img-2.png) |
 
 ---
 
@@ -67,14 +67,14 @@ El parcheador viene en dos ediciones para adaptarse a tu estilo de uso:
 ## Instalación y Uso
 
 1. Descarga la versión de tu preferencia desde la sección de [**Releases**](../../releases):
-   * `DanganronpaVoicePatcher_JunkoEdition.bat` (GUI)
-   * `DanganronpaVoicePatcher_CelesteEdition.bat` (CLI)
+   * `DanganronpaVoicePatcher_MAdev_Multilang.bat` (GUI)
+   * `DanganronpaVoicePatcher_MAdev_CLI.bat` (CLI)
 2. Haz doble clic en el archivo `.bat` deseado para ejecutarlo.
 
 ### Pasos Generales:
 1. **Detección de Guardado:** El programa cargará por defecto la ruta estándar:
    `%USERPROFILE%\Documents\My Games\Danganronpa\savedata.vfs`
-2. **Seleccionar Slot:** Elige el slot (`data01.bin`, `data02.bin`, etc.) que deseas modificar.
+2. **Seleccionar Slot:** Elige el slot (`data0001.bin`, `data0002.bin`, etc.) que deseas modificar.
 3. **Aplicar Cambio:** Cambia la voz a **Japonés** o **Inglés**.
 
 > [!WARNING]
