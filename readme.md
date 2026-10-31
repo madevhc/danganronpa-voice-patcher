@@ -100,4 +100,4 @@ Desarrollado por **MA_Dev**.
 
 ## Licencia
 
-Este proyecto está bajo la Licencia **MIT**. Consulta el archivo [LICENSE](LICENSE) para más detalles.
+[LICENSE](LICENSE) para más detalles.
