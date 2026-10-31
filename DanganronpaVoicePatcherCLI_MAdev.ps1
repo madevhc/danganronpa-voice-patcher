@@ -1,4 +1,6 @@
-﻿try { [Console]::OutputEncoding = [System.Text.Encoding]::UTF8 } catch {}
+# Danganronpa Voice Patcher 1.0 By MA_Dev
+# CeLestIa EDITION 
+ try { [Console]::OutputEncoding = [System.Text.Encoding]::UTF8 } catch {}
 
 $ansiEnabled = $true
 try {
@@ -36,18 +38,18 @@ $ERRC  = Rgb 224 100 100
 $CHECK = [char]0x2713
 $CROSS = [char]0x2717
 
-# Offsets documentados para Danganronpa: Trigger Happy Havoc (PC/Steam), relativos al inicio de cada slot dentro del VFS.
-$Global:FLAG_OFFSET     = 119680   # 0 = ingles, 1 = japones
+# Offsets de Danganronpa: Trigger Happy Havoc (PC/Steam)
+$Global:FLAG_OFFSET     = 119680   # 0 = ingles, 1 = japones (Personaje de la prueba: Touko Fukawa)
 $Global:SUM_FROM        = 800
 $Global:SUM_TO          = 240784
 $Global:CHECKSUM_OFFSET = 240784
 $Global:MIN_SLOT_LENGTH = $Global:CHECKSUM_OFFSET + 1
 $Global:DEFAULT_SAVE_PATH = Join-Path $env:USERPROFILE 'Documents\My Games\Danganronpa\savedata.vfs'
-# Patrones (best effort) del nombre del proceso del juego; ajustalos si el ejecutable se llama distinto.
+# Patrones (best effort) del nombre del proceso del juego
 $Global:GAME_PROCESS_PATTERNS = @('*danganronpa*', '*trigger*happy*')
+# W Touko
 
-# ---------------- UI strings (en / es / ja) ----------------
-# Keep this file saved as UTF-8 WITH BOM so Windows PowerShell reads the Japanese text correctly.
+# ---------------- Strings de la UI (en / es / ja) ----------------
 $Global:I18N = @{
     en = @{
         banner_subtitle     = "Voice language editor - Trigger Happy Havoc (CLI)"
@@ -159,6 +161,7 @@ $Global:I18N = @{
         err_verify_restored = "La verificación posterior falló; se ha restaurado el backup."
         err_verify          = "La verificación posterior falló."
     }
+# El japonés gritando de felicidad porque el programa está traducido a su idioma XD
     ja = @{
         banner_subtitle     = "ボイス言語エディタ - Trigger Happy Havoc (CLI)"
         made_by             = "制作:"
@@ -216,7 +219,6 @@ $Global:I18N = @{
     }
 }
 
-# Default UI language from the Windows display language (es / ja, otherwise en). Press L in the slot list to change it.
 $Global:CurrentLang = switch ((Get-UICulture).TwoLetterISOLanguageName) { 'es' { 'es' } 'ja' { 'ja' } default { 'en' } }
 
 function T {
@@ -356,7 +358,7 @@ function Set-SlotVoiceLanguage {
     if ($TargetValue -ne 0 -and $TargetValue -ne 1) { throw ((T 'err_invalid_lang') -f $TargetValue) }
     $bytes = [System.IO.File]::ReadAllBytes($Path)
 
-    # El archivo pudo cambiar desde que se cargo (el juego, Steam Cloud...): se revalida el slot.
+    # El archivo pudo cambiar desde que se cargo (el juego, Steam Cloud...): se revalida el slot
     $entry = Parse-VfsEntries -Bytes $bytes | Where-Object { $_.Name -eq $SlotName } | Select-Object -First 1
     if (-not $entry -or [int]$entry.Offset -ne $SlotOffset -or $entry.Length -lt $Global:MIN_SLOT_LENGTH) {
         throw (T 'err_file_changed')
@@ -370,7 +372,6 @@ function Set-SlotVoiceLanguage {
     $sum = Set-ChecksumForSlot -Bytes $bytes -SlotOffset $SlotOffset
     $expectedHash = Get-BytesHash -Bytes $bytes
 
-    # Escritura atomica: primero a un temporal verificado y luego reemplazo del original.
     $tmp = "$Path.tmp_$PID"
     try {
         [System.IO.File]::WriteAllBytes($tmp, $bytes)
@@ -382,7 +383,7 @@ function Set-SlotVoiceLanguage {
         throw
     }
 
-    # Verificacion posterior: el archivo final debe ser exactamente lo que se pretendia escribir.
+    # Verificacion posterior: el archivo final debe ser exactamente lo que se pretendia escribir
     $final = [System.IO.File]::ReadAllBytes($Path)
     if ((Get-BytesHash -Bytes $final) -ne $expectedHash) {
         if ($BackupPath -and (Test-Path -LiteralPath $BackupPath)) {
@@ -394,7 +395,7 @@ function Set-SlotVoiceLanguage {
     return $sum
 }
 
-# Ancho en celdas de consola: los caracteres CJK ocupan 2 columnas.
+# Ancho en celdas de consola: los caracteres CJK ocupan 2 columnas
 function Get-CellWidth {
     param([string]$Text)
     $w = 0
@@ -412,8 +413,8 @@ function Colorize {
     $pad = [Math]::Max(0, $Width - (Get-CellWidth -Text $Text))
     return "$Color$Text$(' ' * $pad)$RESET"
 }
-
-function Write-Banner {
+# 10/10 el arte ASCII oye, peak
+function Write-Banner { 
     $art = @'
 ███▄ ▄███▓ ▄▄▄            ▓█████▄ ▓█████ ██▒   █▓
 ▓██▒▀█▀ ██▒▒████▄          ▒██▀ ██▌▓█   ▀▓██░   █▒
@@ -432,7 +433,7 @@ function Write-Banner {
     Write-Host "$AMBER$rule$RESET"
     Write-Host "  $BOLD$INK" -NoNewline; Write-Host "DANGANRONPA VOICE PATCH$RESET"
     Write-Host "  $MIST" -NoNewline; Write-Host "$(T 'banner_subtitle')$RESET"
-    # Enlace a GitHub: clicable (Ctrl+clic) en Windows Terminal mediante OSC 8; en otras consolas se muestra como texto.
+    # Enlace a un bonito GitHub clicable
     $ghUrl  = 'https://github.com/madevhc/'
     $ghText = 'github.com/madevhc'
     if ($ansiEnabled -and $env:WT_SESSION) { $ghShown = "$ESC]8;;$ghUrl$ESC\$ghText$ESC]8;;$ESC\" } else { $ghShown = $ghText }
@@ -541,7 +542,7 @@ function Prompt-Path {
     }
 }
 
-# ---------------- main ----------------
+# ---------------- El Main ----------------
 Write-Banner
 $path = Prompt-Path
 if ([string]::IsNullOrWhiteSpace($path)) {
