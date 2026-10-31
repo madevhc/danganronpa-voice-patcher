@@ -4,7 +4,6 @@
 
 [![Windows](https://img.shields.io/badge/Platform-Windows%2010%20%7C%2011-blue?style=for-the-badge&logo=windows)](https://www.microsoft.com/windows)
 [![PowerShell](https://img.shields.io/badge/PowerShell-5.1%2B-blue?style=for-the-badge&logo=powershell)](https://microsoft.com/powershell)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)](LICENSE)
 
 **Danganronpa Voice Patcher** es una suite de herramientas desarrolladas para modificar el idioma del doblaje de voz (**Japonés ↔ Inglés**) en ranuras de guardado específicas de *Danganronpa: Trigger Happy Havoc* (PC/Steam). 
 
