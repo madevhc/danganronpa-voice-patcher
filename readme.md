@@ -66,8 +66,8 @@ El parcheador viene en dos ediciones para adaptarse a tu estilo de uso:
 ## Instalación y Uso
 
 1. Descarga la versión de tu preferencia desde la sección de [**Releases**](../../releases):
-   * `DanganronpaVoicePatcher_MAdev_Multilang.bat` (GUI)
-   * `DanganronpaVoicePatcher_MAdev_CLI.bat` (CLI)
+   * `DanganronpaVoicePatcher_MAdev.bat` (GUI)
+   * `DanganronpaVoicePatcherCLI_MAdev.bat` (CLI)
 2. Haz doble clic en el archivo `.bat` deseado para ejecutarlo.
 
 ### Pasos Generales:
